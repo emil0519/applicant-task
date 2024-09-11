@@ -3,7 +3,9 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: "#000000",
-      light: "#292929",
+      light: "#D4D3D4",
+      dark: "#292929",
+      contrastText: "#BA0C2E",
     },
   },
 });

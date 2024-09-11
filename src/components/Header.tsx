@@ -1,17 +1,19 @@
 import Box from "@mui/material/Box";
+// only import necessary component to optimized bundle size
 import theme from "../theme";
 import xterraLogo from "../assets/xterraLogo.svg";
+import React from "react";
 
-export const Header = () => (
+export const Header = (): React.ReactElement => (
   <Box
     component="header"
     sx={{
-      position: "fixed",
+      position: "sticky",
       top: 0,
       left: 0,
       width: "100%",
       height: "8%",
-      backgroundColor: theme.palette.primary.light,
+      backgroundColor: theme.palette.primary.dark,
       display: "flex",
       alignItems: "center",
       paddingLeft: 5,
