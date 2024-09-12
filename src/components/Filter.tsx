@@ -57,7 +57,10 @@ export const Filter = ({
             flexDirection: { xs: "column", md: "row" },
           }}
         >
-          <Typography component="p" sx={{ fontSize: "16px", color: "#2e2d2f" }}>
+          <Typography
+            component="p"
+            sx={{ fontSize: "16px", color: "#2e2d2f", marginTop: 1 }}
+          >
             Base on
           </Typography>
           <Select
