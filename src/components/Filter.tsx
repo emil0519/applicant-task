@@ -43,38 +43,49 @@ export const Filter = (): React.ReactElement => {
         <Typography component="h2" sx={{ fontSize: "40px", fontWeight: 700 }}>
           Search for XTERRA result
         </Typography>
-        <Typography component="p" sx={{ fontSize: "16px", color: "#2e2d2f" }}>
-          Base on
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: { xs: "flex-start", md: "center" },
+            gap: 1,
+            width: { xs: "100%", md: "auto" },
+            flexDirection: { xs: "column", md: "row" },
+          }}
+        >
+          <Typography component="p" sx={{ fontSize: "16px", color: "#2e2d2f" }}>
+            Base on
+          </Typography>
+          <Select
+            labelId="sort-results-label"
+            id="sort-results-select"
+            value={selectedOption}
+            onChange={handleSelectOption}
+            sx={{
+              marginTop: 1,
+              borderRadius: 4,
+              width: { xs: "60%", md: "190px" },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: theme.palette.primary.light,
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: theme.palette.primary.contrastText,
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: theme.palette.primary.contrastText,
+              },
+              ".MuiSvgIcon-root ": {
+                fill: theme.palette.primary.light,
+              },
+            }}
+          >
+            {dropDownOptionList.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
       </Box>
-      <Select
-        labelId="sort-results-label"
-        id="sort-results-select"
-        value={selectedOption}
-        onChange={handleSelectOption}
-        sx={{
-          marginTop: 1,
-          borderRadius: 4,
-          "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: theme.palette.primary.light,
-          },
-          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: theme.palette.primary.contrastText,
-          },
-          "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: theme.palette.primary.contrastText,
-          },
-          ".MuiSvgIcon-root ": {
-            fill: theme.palette.primary.light,
-          },
-        }}
-      >
-        {dropDownOptionList.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </Select>
     </Box>
   );
 };
