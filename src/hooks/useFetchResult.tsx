@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { ResultListType, SortEnum } from "../type";
-import { replaceOutliers, sortData } from "./utils";
+import { replaceOutliers, searchResult, sortData } from "./utils";
 
 interface ReturnType {
   resultList: ResultListType[] | null;
@@ -11,8 +11,10 @@ interface ReturnType {
 
 export const useFetchResult = ({
   sortOption,
+  searchText,
 }: {
   sortOption: SortEnum;
+  searchText: string;
 }): ReturnType => {
   const [rawResultList, setRawResultList] = useState<ResultListType[] | null>(
     null
@@ -45,14 +47,15 @@ export const useFetchResult = ({
 
   const processedResultList = useMemo(() => {
     if (rawResultList) {
-      const replacedData = replaceOutliers(rawResultList, [
+      const searchedData = searchResult(rawResultList, searchText);
+      const replacedData = replaceOutliers(searchedData, [
         "00:00:00",
         "23:59:59",
       ]);
       return sortData(replacedData, sortOption);
     }
     return null;
-  }, [rawResultList, sortOption]);
+  }, [rawResultList, sortOption, searchText]);
 
   return { resultList: processedResultList, isLoading, isError, fetchAthletes };
 };

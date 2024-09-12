@@ -7,7 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ResultListType, SortEnum } from "../type";
 import { getSplitTime } from "../utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -15,12 +15,18 @@ import Box from "@mui/material/Box";
 
 export const DataTable = ({
   resultList,
+  searchText,
 }: {
   resultList: ResultListType[];
+  searchText: string;
 }): React.ReactElement => {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [isShowAllResult, setIsShowAllResult] = useState<boolean>(true);
+
+  useEffect(() => {
+    resetPagination();
+  }, [searchText]);
 
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement> | null,
@@ -34,10 +40,14 @@ export const DataTable = ({
     setPage(0);
   };
 
-  const handleShowAllResult = (): void => {
-    setIsShowAllResult((prevState) => !prevState);
+  const resetPagination = (): void => {
     setPage(0);
     setRowsPerPage(10);
+  };
+
+  const handleShowAllResult = (): void => {
+    setIsShowAllResult((prevState) => !prevState);
+    resetPagination();
   };
 
   return (

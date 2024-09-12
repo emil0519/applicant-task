@@ -13,8 +13,10 @@ import { Error } from "./components/Error";
 
 const App = (): React.ReactElement => {
   const [sortOption, setSortOption] = useState<SortEnum>(SortEnum.Total_Time);
+  const [searchText, setSearchText] = useState<string>("");
   const { resultList, isLoading, isError, fetchAthletes } = useFetchResult({
     sortOption,
+    searchText,
   });
   return (
     <>
@@ -26,8 +28,12 @@ const App = (): React.ReactElement => {
           {isError && <Error errorAction={fetchAthletes} />}
           {!isLoading && !isError && resultList && (
             <>
-              <Filter sortOption={sortOption} setSortOption={setSortOption} />
-              <DataTable resultList={resultList} />
+              <Filter
+                sortOption={sortOption}
+                setSortOption={setSortOption}
+                setSearchText={setSearchText}
+              />
+              <DataTable resultList={resultList} searchText={searchText} />
             </>
           )}
         </Container>

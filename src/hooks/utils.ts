@@ -72,3 +72,18 @@ export const sortData = (
     return processSort(aTime, bTime);
   });
 };
+
+/**
+ * @returns Result fits with first name/ last name/ nationality of search text
+ */
+export const searchResult = (
+  rawResultList: ResultListType[],
+  searchText: string
+): ResultListType[] => {
+  return rawResultList.filter(
+    (result) =>
+      result.first_name.includes(searchText.toUpperCase()) ||
+      result.last_name.includes(searchText.toUpperCase()) ||
+      result.nationality.includes(searchText.toUpperCase())
+  );
+};
