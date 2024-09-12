@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ResultListType, SortEnum } from "../type";
 import { replaceOutliers, sortData } from "./utils";
 
@@ -14,10 +14,12 @@ export const useFetchResult = ({
 }: {
   sortOption: SortEnum;
 }): ReturnType => {
-  const [resultList, setResultList] = useState<ResultListType[] | null>(null);
-  const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
+  const [rawResultList, setRawResultList] = useState<ResultListType[] | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+
   const fetchAthletes = async () => {
     try {
       setIsError(false);
@@ -28,10 +30,7 @@ export const useFetchResult = ({
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
       const data: ResultListType[] = await response.json();
-      const replacedData = replaceOutliers(data, ["00:00:00", "23:59:59"]);
-      const sortedData = sortData(replacedData, sortOption);
-      setIsFirstRender(false);
-      setResultList(sortedData);
+      setRawResultList(data);
     } catch (error) {
       console.error("Error fetching athletes:", error);
       setIsError(true);
@@ -39,15 +38,21 @@ export const useFetchResult = ({
       setIsLoading(false);
     }
   };
-  useMemo(() => {
+
+  useEffect(() => {
     fetchAthletes();
   }, []);
 
-  useMemo(() => {
-    if (resultList && !isFirstRender) {
-      const sortedData = sortData(resultList, sortOption);
-      setResultList(sortedData);
+  const processedResultList = useMemo(() => {
+    if (rawResultList) {
+      const replacedData = replaceOutliers(rawResultList, [
+        "00:00:00",
+        "23:59:59",
+      ]);
+      return sortData(replacedData, sortOption);
     }
-  }, [resultList, sortOption, isFirstRender]);
-  return { resultList, isLoading, isError, fetchAthletes };
+    return null;
+  }, [rawResultList, sortOption]);
+
+  return { resultList: processedResultList, isLoading, isError, fetchAthletes };
 };
