@@ -24,6 +24,7 @@ Then open : [http://localhost:5173/](http://localhost:5173/)
 
 - Use useMemo hook to store processed data to prevent unnecessary rerender by storing it in useState.
 - Import only necessary content from Material UI to minimize bundle size.
+- Use debounce for search input to prevent frequent calculation.
 
 2. Scalability
 
