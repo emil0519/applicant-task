@@ -32,6 +32,8 @@ export const dropDownOptionList: DropDownOptionListType[] = [
   },
 ];
 
+export const invalidTimeLabel = "Invalid time";
+
 export const demoData: ResultListType[] = [
   {
     first_name: "KERRY",
