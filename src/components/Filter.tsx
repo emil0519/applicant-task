@@ -46,7 +46,7 @@ export const Filter = ({
         }}
       >
         <Typography component="h2" sx={{ fontSize: "40px", fontWeight: 700 }}>
-          Search for XTERRA result
+          Search for Triathlon result
         </Typography>
         <Box
           sx={{
