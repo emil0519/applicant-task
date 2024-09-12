@@ -1,15 +1,16 @@
 import { useMemo, useState } from "react";
 import { ResultListType } from "../type";
+import { replaceOutliers } from "./utils";
 
 interface ReturnType {
-  resultList: ResultListType | null;
+  resultList: ResultListType[] | null;
   isLoading: boolean;
   isError: boolean;
   fetchAthletes: () => Promise<void>;
 }
 
 export const useFetchResult = (): ReturnType => {
-  const [resultList, setResultList] = useState<ResultListType | null>(null);
+  const [resultList, setResultList] = useState<ResultListType[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const fetchAthletes = async () => {
@@ -19,8 +20,9 @@ export const useFetchResult = (): ReturnType => {
       const response = await fetch(
         "https://core.xterraplanet.com/api/application-task/cee4389b-1668-4e39-b500-3572f0982b09"
       );
-      const data: ResultListType = await response.json();
-      console.log(data);
+      const data: ResultListType[] = await response.json();
+      const replacedData = replaceOutliers(data, ["00:00:00", "23:59:59"]);
+      console.log(replacedData);
       setResultList(data);
     } catch {
       setIsError(true);
