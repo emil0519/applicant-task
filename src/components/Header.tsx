@@ -18,6 +18,7 @@ export const Header = (): React.ReactElement => (
       alignItems: "center",
       paddingLeft: 5,
       paddingY: 4,
+      zIndex: 2,
     }}
   >
     <Box
