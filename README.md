@@ -11,7 +11,7 @@ Open terminal, copy & paste the following command:
 ```
     mkdir emil_applicant_task
     cd emil_applicant_task
-    git clone https://github.com/emil0519/applicant-task.git
+    git clone https://github.com/emil0519/applicant-task.git .
     npm i
     npm run dev
 ```
