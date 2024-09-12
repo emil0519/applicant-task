@@ -9,8 +9,13 @@ interface ReturnType {
   fetchAthletes: () => Promise<void>;
 }
 
-export const useFetchResult = (): ReturnType => {
+export const useFetchResult = ({
+  sortOption,
+}: {
+  sortOption: SortEnum;
+}): ReturnType => {
   const [resultList, setResultList] = useState<ResultListType[] | null>(null);
+  const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const fetchAthletes = async () => {
@@ -24,7 +29,8 @@ export const useFetchResult = (): ReturnType => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       const data: ResultListType[] = await response.json();
       const replacedData = replaceOutliers(data, ["00:00:00", "23:59:59"]);
-      const sortedData = sortData(replacedData, SortEnum.Total_Time);
+      const sortedData = sortData(replacedData, sortOption);
+      setIsFirstRender(false);
       setResultList(sortedData);
     } catch (error) {
       console.error("Error fetching athletes:", error);
@@ -36,5 +42,12 @@ export const useFetchResult = (): ReturnType => {
   useMemo(() => {
     fetchAthletes();
   }, []);
+
+  useMemo(() => {
+    if (resultList && !isFirstRender) {
+      const sortedData = sortData(resultList, sortOption);
+      setResultList(sortedData);
+    }
+  }, [resultList, sortOption, isFirstRender]);
   return { resultList, isLoading, isError, fetchAthletes };
 };

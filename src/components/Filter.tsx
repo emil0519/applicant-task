@@ -8,16 +8,16 @@ import { SortEnum } from "../type";
 import theme from "../theme";
 
 interface PropsType {
-  selectedOption: SortEnum;
-  setSelectionOption: (selectedOption: SortEnum) => void;
+  sortOption: SortEnum;
+  setSortOption: (sortOption: SortEnum) => void;
 }
 
 export const Filter = ({
-  selectedOption,
-  setSelectionOption,
+  sortOption,
+  setSortOption,
 }: PropsType): React.ReactElement => {
   const handleSelectOption = (e: SelectChangeEvent<SortEnum>) =>
-    setSelectionOption(e.target.value as SortEnum);
+    setSortOption(e.target.value as SortEnum);
 
   return (
     <Box
@@ -63,7 +63,7 @@ export const Filter = ({
           <Select
             labelId="sort-results-label"
             id="sort-results-select"
-            value={selectedOption}
+            value={sortOption}
             onChange={handleSelectOption}
             sx={{
               marginTop: 1,
