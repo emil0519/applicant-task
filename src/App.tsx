@@ -32,7 +32,7 @@ const App = (): React.ReactElement => {
                 selectedOption={selectedOption}
                 setSelectionOption={setSelectionOption}
               />
-              <DataTable />
+              <DataTable resultList={resultList} />
             </>
           )}
         </Container>
