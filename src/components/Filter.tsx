@@ -1,16 +1,21 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import React, { useState } from "react";
+import React from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { dropDownOptionList } from "../constant";
 import { SortEnum } from "../type";
 import theme from "../theme";
 
-export const Filter = (): React.ReactElement => {
-  const [selectedOption, setSelectionOption] = useState<SortEnum>(
-    SortEnum.Total_Time
-  );
+interface PropsType {
+  selectedOption: SortEnum;
+  setSelectionOption: (selectedOption: SortEnum) => void;
+}
+
+export const Filter = ({
+  selectedOption,
+  setSelectionOption,
+}: PropsType): React.ReactElement => {
   const handleSelectOption = (e: SelectChangeEvent<SortEnum>) =>
     setSelectionOption(e.target.value as SortEnum);
 
