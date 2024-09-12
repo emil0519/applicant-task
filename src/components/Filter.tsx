@@ -1,18 +1,23 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import React, { useState } from "react";
+import React from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { dropDownOptionList } from "../constant";
 import { SortEnum } from "../type";
 import theme from "../theme";
 
-export const Filter = (): React.ReactElement => {
-  const [selectedOption, setSelectionOption] = useState<SortEnum>(
-    SortEnum.Total_Time
-  );
+interface PropsType {
+  sortOption: SortEnum;
+  setSortOption: (sortOption: SortEnum) => void;
+}
+
+export const Filter = ({
+  sortOption,
+  setSortOption,
+}: PropsType): React.ReactElement => {
   const handleSelectOption = (e: SelectChangeEvent<SortEnum>) =>
-    setSelectionOption(e.target.value as SortEnum);
+    setSortOption(e.target.value as SortEnum);
 
   return (
     <Box
@@ -52,13 +57,16 @@ export const Filter = (): React.ReactElement => {
             flexDirection: { xs: "column", md: "row" },
           }}
         >
-          <Typography component="p" sx={{ fontSize: "16px", color: "#2e2d2f" }}>
+          <Typography
+            component="p"
+            sx={{ fontSize: "16px", color: "#2e2d2f", marginTop: 1 }}
+          >
             Base on
           </Typography>
           <Select
             labelId="sort-results-label"
             id="sort-results-select"
-            value={selectedOption}
+            value={sortOption}
             onChange={handleSelectOption}
             sx={{
               marginTop: 1,
