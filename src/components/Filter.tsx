@@ -22,9 +22,6 @@ export const Filter = (): React.ReactElement => {
           xs: "column",
           md: "row",
         },
-        width: "90%",
-        marginLeft: "auto",
-        marginRight: "auto",
         marginTop: 5,
       }}
     >
@@ -73,7 +70,9 @@ export const Filter = (): React.ReactElement => {
         }}
       >
         {dropDownOptionList.map((option) => (
-          <MenuItem value={option.value}>{option.label}</MenuItem>
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
         ))}
       </Select>
     </Box>

@@ -4,6 +4,8 @@ import theme from "./theme";
 import { Header } from "./components/Header";
 import { useEffect } from "react";
 import { Filter } from "./components/Filter";
+import { DataTable } from "./components/DataTable";
+import Container from "@mui/material/Container";
 
 const App = (): React.ReactElement => {
   useEffect(() => {
@@ -20,7 +22,10 @@ const App = (): React.ReactElement => {
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <Header />
-        <Filter />
+        <Container maxWidth="xl">
+          <Filter />
+          <DataTable />
+        </Container>
       </ThemeProvider>
     </>
   );

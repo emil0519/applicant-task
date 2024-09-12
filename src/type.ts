@@ -6,3 +6,18 @@ export enum SortEnum {
   T1_time = "t1_time",
   T2_time = "t2_time",
 }
+
+export interface SplitType {
+  name: SortEnum;
+  time: string;
+}
+
+export interface ResultListType {
+  first_name: string;
+  last_name: string;
+  gender: string;
+  division: string;
+  nationality: string;
+  total_time: string;
+  splits: SplitType[];
+}
