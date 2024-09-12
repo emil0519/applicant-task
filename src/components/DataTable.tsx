@@ -7,58 +7,111 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ResultListType, SortEnum } from "../type";
 import { getSplitTime } from "../utils";
+import { useState } from "react";
+import TablePagination from "@mui/material/TablePagination";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Box from "@mui/material/Box";
 
 export const DataTable = ({
   resultList,
 }: {
   resultList: ResultListType[];
-}): React.ReactElement => (
-  <TableContainer component={Paper} sx={{ marginTop: 3 }}>
-    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-      <TableHead>
-        <TableRow>
-          <TableCell>First name</TableCell>
-          <TableCell>Last name</TableCell>
-          <TableCell>Gender</TableCell>
-          <TableCell>Division</TableCell>
-          <TableCell>Nationality</TableCell>
-          <TableCell>Total time</TableCell>
-          <TableCell>Swim time</TableCell>
-          <TableCell>Bike time</TableCell>
-          <TableCell>Run time</TableCell>
-          <TableCell>T1 time</TableCell>
-          <TableCell>T2 time</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {resultList.map((result) => (
-          <TableRow
-            key={`${result.first_name}-${result.last_name}-${result.nationality}-${result.total_time}`}
-          >
-            <TableCell>{result.first_name}</TableCell>
-            <TableCell>{result.last_name}</TableCell>
-            <TableCell>{result.gender}</TableCell>
-            <TableCell>{result.division}</TableCell>
-            <TableCell>{result.nationality}</TableCell>
-            <TableCell>{result.total_time}</TableCell>
-            <TableCell>
-              {getSplitTime(result.splits, SortEnum.Swim_Time)}
-            </TableCell>
-            <TableCell>
-              {getSplitTime(result.splits, SortEnum.Bike_Time)}
-            </TableCell>
-            <TableCell>
-              {getSplitTime(result.splits, SortEnum.Run_time)}
-            </TableCell>
-            <TableCell>
-              {getSplitTime(result.splits, SortEnum.T1_time)}
-            </TableCell>
-            <TableCell>
-              {getSplitTime(result.splits, SortEnum.T2_time)}
-            </TableCell>
+}): React.ReactElement => {
+  const [page, setPage] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+  const [isShowAllResult, setIsShowAllResult] = useState<boolean>(false);
+
+  const handleChangePage = (
+    _: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ): void => setPage(newPage);
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleShowAllResult = (): void => {
+    setIsShowAllResult((prevState) => !prevState);
+    setPage(0);
+    setRowsPerPage(10);
+  };
+
+  return (
+    <TableContainer component={Paper} sx={{ marginY: 3 }}>
+      <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>
+        <TablePagination
+          sx={{ visibility: isShowAllResult ? "hidden" : "visible" }}
+          rowsPerPageOptions={[10, 50, 100]}
+          component="div"
+          count={resultList.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox checked={isShowAllResult} onClick={handleShowAllResult} />
+          }
+          label="Show all result"
+        />
+      </Box>
+      <Table sx={{ minWidth: 650 }} aria-label="Triathlon result table">
+        <TableHead>
+          <TableRow>
+            <TableCell>First name</TableCell>
+            <TableCell>Last name</TableCell>
+            <TableCell>Gender</TableCell>
+            <TableCell>Division</TableCell>
+            <TableCell>Nationality</TableCell>
+            <TableCell>Total time</TableCell>
+            <TableCell>Swim time</TableCell>
+            <TableCell>Bike time</TableCell>
+            <TableCell>Run time</TableCell>
+            <TableCell>T1 time</TableCell>
+            <TableCell>T2 time</TableCell>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+        </TableHead>
+        <TableBody>
+          {(isShowAllResult
+            ? resultList
+            : resultList.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
+          ).map((result) => (
+            <TableRow
+              key={`${result.first_name}-${result.last_name}-${result.nationality}-${result.total_time}`}
+            >
+              <TableCell>{result.first_name}</TableCell>
+              <TableCell>{result.last_name}</TableCell>
+              <TableCell>{result.gender}</TableCell>
+              <TableCell>{result.division}</TableCell>
+              <TableCell>{result.nationality}</TableCell>
+              <TableCell>{result.total_time}</TableCell>
+              <TableCell>
+                {getSplitTime(result.splits, SortEnum.Swim_Time)}
+              </TableCell>
+              <TableCell>
+                {getSplitTime(result.splits, SortEnum.Bike_Time)}
+              </TableCell>
+              <TableCell>
+                {getSplitTime(result.splits, SortEnum.Run_time)}
+              </TableCell>
+              <TableCell>
+                {getSplitTime(result.splits, SortEnum.T1_time)}
+              </TableCell>
+              <TableCell>
+                {getSplitTime(result.splits, SortEnum.T2_time)}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
