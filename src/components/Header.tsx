@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
 // only import necessary component to optimized bundle size
 import theme from "../theme";
-import xterraLogo from "../assets/xterraLogo.svg";
 import React from "react";
+import { Typography } from "@mui/material";
 
 export const Header = (): React.ReactElement => (
   <Box
@@ -21,15 +21,11 @@ export const Header = (): React.ReactElement => (
       zIndex: 2,
     }}
   >
-    <Box
-      component="img"
-      src={xterraLogo}
-      alt="Xterra Logo"
-      sx={{
-        height: "auto",
-        width: "40%",
-        maxWidth: "200px",
-      }}
-    ></Box>
+    <Typography
+      component="h1"
+      sx={{ fontSize: "40px", fontWeight: 700, color: "white" }}
+    >
+      Triathlon Result
+    </Typography>
   </Box>
 );
